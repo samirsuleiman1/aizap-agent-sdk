@@ -1,0 +1,10 @@
+{
+  "name": "aizap-agent-sdk",
+  "version": "1.0.0",
+  "description": "Build and publish AI agents to the AiZap Marketplace",
+  "scripts": {
+    "validate": "node scripts/validate.js"
+  },
+  "keywords": ["aizap", "ai", "agent", "sdk", "marketplace"],
+  "license": "CC-BY-4.0"
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AiZap Agent",
+  "description": "Schema for an AiZap marketplace agent",
+  "type": "object",
+  "required": ["id", "name", "icon", "color", "category", "version", "author", "description", "systemPrompt", "permissions"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 3,
+      "maxLength": 48,
+      "description": "Unique slug for your agent. Lowercase, hyphens only. Example: 'fitness-coach'"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 32,
+      "description": "Display name shown in the marketplace. Example: 'Fitness Coach'"
+    },
+    "icon": {
+      "type": "string",
+      "description": "A single emoji that represents your agent. Example: '💪'"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "Brand color in hex. Example: '#FF6B35'"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["Health", "Finance", "Business", "Productivity", "Creative", "Education", "Lifestyle", "Sports", "Mentors"],
+      "description": "Marketplace category for your agent"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semver version. Start at '1.0.0'"
+    },
+    "author": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$",
+      "description": "Your GitHub username"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "1-2 sentences shown in the marketplace card"
+    },
+    "systemPrompt": {
+      "type": "string",
+      "minLength": 100,
+      "maxLength": 8000,
+      "description": "The full system prompt that defines your agent's behavior"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["read_messages", "send_messages", "access_calendar", "access_contacts"]
+      },
+      "uniqueItems": true,
+      "description": "Permissions your agent needs. Only request what you actually use."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 24 },
+      "maxItems": 5,
+      "description": "Optional search tags"
+    },
+    "sensitive": {
+      "type": "boolean",
+      "description": "Set to true if your agent handles sensitive topics (legal, health, finance). Adds a disclaimer badge."
+    }
+  }
+}

@@ -1,0 +1,26 @@
+name: Validate Agents
+
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'schema/**'
+
+jobs:
+  validate:
+    name: Validate agent.json files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run validator
+        run: node scripts/validate.js
+
+      - name: Check for duplicate IDs
+        run: |
+          IDS=$(find agents -name "agent.json" | xargs grep -h '"id"' | sort)
+          UNIQUE=$(echo "$IDS" | sort -u)
+          if [ "$IDS" != "$UNIQUE" ]; then
+            echo "Duplicate agent IDs found!"
+            exit 1
+          fi
