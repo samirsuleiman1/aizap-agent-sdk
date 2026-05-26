@@ -90,7 +90,7 @@
           "minimum": 0.99,
           "maximum": 999.99,
           "multipleOf": 0.01,
-          "description": "Price in Brazilian Reais (BRL). Required when model is 'paid' or 'freemium'. Revenue split: 49% to you, 21% AiZap, 30% Apple/Google."
+          "description": "Price in Brazilian Reais (BRL). Required when model is 'paid' or 'freemium'. Revenue split: ~59% to you, ~11% AiZap, 30% Apple/Google (AiZap takes 15% of what remains after Apple's cut)."
         },
         "aizap_publisher_id": {
           "type": "string",

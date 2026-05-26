@@ -153,11 +153,21 @@ Agents imported directly via a GitHub URL are **always free** — no exceptions.
 
 When a user purchases your agent on the AiZap Store:
 
-| Party | Cut |
-|-------|-----|
-| **You (author)** | **49%** |
-| AiZap | 21% |
-| Apple / Google | 30% |
+| Party | Cut | On a R$19,90 sale |
+|-------|-----|-------------------|
+| Apple / Google | 30% | R$5,97 |
+| **You (author)** | **~59%** | **R$11,73** |
+| AiZap | ~11% | R$2,20 |
+
+AiZap takes **15% of what remains after Apple/Google's cut** — not 15% of the total. This means the more Apple charges, the less AiZap takes in absolute terms, not more.
+
+```
+User pays R$19,90
+├── Apple/Google  30%  → R$5,97   (non-negotiable, processed by App Store)
+└── Remaining         → R$13,93
+    ├── You       85%  → R$11,73
+    └── AiZap     15%  → R$2,20
+```
 
 ### How ownership is verified
 
