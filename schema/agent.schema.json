@@ -73,6 +73,38 @@
     "sensitive": {
       "type": "boolean",
       "description": "Set to true if your agent handles sensitive topics (legal, health, finance). Adds a disclaimer badge."
+    },
+    "monetization": {
+      "type": "object",
+      "description": "Optional. Omit entirely for open-source/free agents — no field means GitHub import is always free. Only include this if you want to sell this agent on the AiZap Store. Agents imported via a GitHub URL are always free regardless of this field.",
+      "additionalProperties": false,
+      "required": ["model", "aizap_publisher_id"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["free", "paid", "freemium"],
+          "description": "'free' = listed on Store for free (good for official attribution). 'paid' = one-time purchase. 'freemium' = free base tier + paid unlock."
+        },
+        "price_brl": {
+          "type": "number",
+          "minimum": 0.99,
+          "maximum": 999.99,
+          "multipleOf": 0.01,
+          "description": "Price in Brazilian Reais (BRL). Required when model is 'paid' or 'freemium'. Revenue split: 49% to you, 21% AiZap, 30% Apple/Google."
+        },
+        "aizap_publisher_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "Your AiZap publisher UUID. Find it in AiZap → Profile → Creator Settings. This binds the agent to your account — AiZap verifies this UUID during Store review. A mismatch rejects the submission."
+        }
+      },
+      "if": {
+        "properties": { "model": { "enum": ["paid", "freemium"] } },
+        "required": ["model"]
+      },
+      "then": {
+        "required": ["price_brl"]
+      }
     }
   }
 }

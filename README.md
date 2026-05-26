@@ -82,6 +82,7 @@ Each agent lives in its own folder: `agents/{id}/agent.json`
 | `permissions` | ✅ | Array — only request what you use (see below) |
 | `tags` | ➖ | Up to 5 search tags |
 | `sensitive` | ➖ | `true` if agent handles medical, legal, or financial advice |
+| `monetization` | ➖ | See [Monetization](#monetization) below |
 
 ### Permissions
 
@@ -123,6 +124,46 @@ unless the user asks for detail.
 If asked about something outside your expertise, say so clearly and
 suggest who might help instead.
 ```
+
+---
+
+## Monetization
+
+Agents imported directly via a GitHub URL are **always free** — no exceptions. The `monetization` field only matters when you submit through the official AiZap Store review process.
+
+**Omit the field entirely** if your agent is open-source/free. That is the default and the most common case.
+
+**Add the field** only if you want to sell your agent on the AiZap Store:
+
+```json
+"monetization": {
+  "model": "paid",
+  "price_brl": 19.90,
+  "aizap_publisher_id": "your-uuid-from-aizap-profile"
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `model` | ✅ | `"free"` · `"paid"` · `"freemium"` |
+| `price_brl` | When `paid`/`freemium` | Price in BRL. Min R$0.99, max R$999.99. |
+| `aizap_publisher_id` | ✅ | Your UUID from AiZap → Profile → Creator Settings |
+
+### Revenue split
+
+When a user purchases your agent on the AiZap Store:
+
+| Party | Cut |
+|-------|-----|
+| **You (author)** | **49%** |
+| AiZap | 21% |
+| Apple / Google | 30% |
+
+### How ownership is verified
+
+`aizap_publisher_id` links the agent to your AiZap account. During Store review, AiZap checks that the UUID in `agent.json` matches the authenticated publisher who submitted the PR. A mismatch — for example, someone trying to publish another author's agent as their own — automatically rejects the submission.
+
+> **GitHub import is always free.** Even if `monetization.model` is set to `"paid"`, a user who imports the agent via a raw GitHub URL gets it for free. The paid gate only applies inside the official AiZap Store listing.
 
 ---
 

@@ -93,6 +93,29 @@ for (const folder of agentFolders) {
     errors.push(`Folder name "${folder}" must match agent id "${data.id}"`);
   }
 
+  // Extra: monetization rules
+  if (data.monetization) {
+    const m = data.monetization;
+    if (!m.model) {
+      errors.push('monetization.model is required');
+    }
+    if (!m.aizap_publisher_id) {
+      errors.push('monetization.aizap_publisher_id is required');
+    } else if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(m.aizap_publisher_id)) {
+      errors.push('monetization.aizap_publisher_id must be a valid UUID');
+    } else if (m.aizap_publisher_id === '00000000-0000-0000-0000-000000000000') {
+      errors.push('monetization.aizap_publisher_id is a placeholder — replace it with your real UUID from AiZap → Profile → Creator Settings');
+    }
+    if ((m.model === 'paid' || m.model === 'freemium') && !m.price_brl) {
+      errors.push(`monetization.price_brl is required when model is "${m.model}"`);
+    }
+    if (m.price_brl !== undefined) {
+      if (typeof m.price_brl !== 'number') errors.push('monetization.price_brl must be a number');
+      else if (m.price_brl < 0.99) errors.push('monetization.price_brl must be at least 0.99');
+      else if (m.price_brl > 999.99) errors.push('monetization.price_brl must be at most 999.99');
+    }
+  }
+
   // Extra: duplicate id check
   if (data.id) {
     if (seenIds.has(data.id)) {
